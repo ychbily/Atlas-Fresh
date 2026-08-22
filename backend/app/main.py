@@ -9,8 +9,9 @@ from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from app.models import DatasetResponse
+from app.models import DatasetResponse, PlanResult
 from app.data_loader import load_dataset, DataValidationError
+from app.planning_engine import run_planning_engine
 
 app = FastAPI(
     title="Atlas Fresh Daily Planning API",
@@ -91,3 +92,20 @@ def get_dataset() -> DatasetResponse:
         DatasetResponse: All 20 farms, 10 clients, station parameters, and aggregated totals.
     """
     return load_dataset()
+
+
+@app.get("/api/plan", response_model=PlanResult, tags=["Planning"])
+def get_plan() -> PlanResult:
+    """
+    Execute the deterministic allocation planning engine and return complete daily plan.
+
+    Loads the authoritative dataset, performs business validations, applies the 
+    reference allocation policy, computes local residuals, and aggregates executive KPIs.
+
+    Returns:
+        PlanResult: Structured plan containing KPIs, allocations, client statuses,
+        farm summaries, and local residual breakdowns.
+    """
+    dataset = load_dataset()
+    return run_planning_engine(dataset)
+
