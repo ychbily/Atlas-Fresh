@@ -104,6 +104,13 @@ clean: ## Clean local temporary build files and test caches
 	rm -rf frontend/node_modules/.vite
 	@echo "==> Local clean complete!"
 
+clean-all: clean ## Full clean: remove local build caches, venv, and node_modules
+	@echo "==> Completely removing virtual environment and node_modules..."
+	rm -rf $(VENV)
+	rm -rf frontend/node_modules
+	@echo "==> Full local environment clean complete!"
+
+
 clean-docker: ## Stop and remove all Docker containers, networks, and volumes
 	@if [ -z "$(DOCKER_CMD)" ]; then \
 		echo "ERROR: Docker executable not found in PATH."; \
@@ -118,3 +125,18 @@ clean-docker: ## Stop and remove all Docker containers, networks, and volumes
 	echo "==> Stopping Docker containers..."; \
 	$$DOCKER_EXEC compose down --volumes --remove-orphans
 	@echo "==> Docker clean complete!"
+
+clean-all-docker: ## Full Docker purge: remove containers, networks, volumes, and built images
+	@if [ -z "$(DOCKER_CMD)" ]; then \
+		echo "ERROR: Docker executable not found in PATH."; \
+		exit 1; \
+	fi
+	@DOCKER_EXEC="docker"; \
+	if ! docker info >/dev/null 2>&1; then \
+		if command -v sudo >/dev/null 2>&1; then \
+			DOCKER_EXEC="sudo docker"; \
+		fi; \
+	fi; \
+	echo "==> Purging project Docker containers, volumes, and images..."; \
+	$$DOCKER_EXEC compose down --volumes --remove-orphans --rmi all
+	@echo "==> Full Docker purge complete!"

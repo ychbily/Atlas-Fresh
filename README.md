@@ -39,9 +39,10 @@ make dev
 - **Frontend Application**: [http://localhost:5173](http://localhost:5173)
 - **Backend API & Swagger Docs**: [http://localhost:8000/docs](http://localhost:8000/docs)
 
-To stop local servers and clean build caches:
+To clean build caches (or completely wipe environments):
 ```bash
-make clean
+make clean      # Clean temporary build caches (__pycache__, dist)
+make clean-all  # Full reset: removes venv and node_modules for fresh install
 ```
 
 ---
@@ -61,9 +62,10 @@ make docker-test
 - **Frontend Application**: [http://localhost:5173](http://localhost:5173)
 - **Backend API & Swagger Docs**: [http://localhost:8000/docs](http://localhost:8000/docs)
 
-To stop containers and clean Docker networks:
+To stop containers or purge all Docker artifacts:
 ```bash
-make clean-docker
+make clean-docker      # Stop and remove containers and volumes
+make clean-all-docker  # Full Docker purge: removes containers, volumes, and images
 ```
 
 
