@@ -4,6 +4,12 @@
 
 ---
 
+## 🌐 Live Hosted Application
+
+- **Production URL**: [https://atlas-fresh.vercel.app/](https://atlas-fresh.vercel.app/)
+
+---
+
 ## 🚀 Quick Start & Environment Options
 
 You can run and evaluate this project using **either** a standard local environment (Python virtualenv + Node.js) or **Docker Compose**.
