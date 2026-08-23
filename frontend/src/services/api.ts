@@ -2,13 +2,22 @@ import axios from 'axios';
 import type { AssistantResponse, DatasetResponse, PlanResult } from '../types';
 
 /**
- * Base URL for the Atlas Fresh FastAPI backend.
- * Falls back to localhost:8000 for standard local development.
+ * Derive the Base URL for the Atlas Fresh FastAPI backend.
+ * Uses VITE_API_URL environment variable if set, or dynamically falls back
+ * to the current browser hostname on port 8000 (e.g. http://localhost:8000).
  */
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const getApiBaseUrl = (): string => {
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+  if (typeof window !== 'undefined' && window.location && window.location.hostname) {
+    return `http://${window.location.hostname}:8000`;
+  }
+  return 'http://localhost:8000';
+};
 
 const apiClient = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: getApiBaseUrl(),
   headers: {
     'Content-Type': 'application/json',
     'Cache-Control': 'no-cache',
@@ -16,6 +25,7 @@ const apiClient = axios.create({
   },
   timeout: 12000,
 });
+
 
 /**
  * Fetch the complete daily export plan and executive KPIs from the planning engine.
