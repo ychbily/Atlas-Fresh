@@ -29,6 +29,16 @@ app.add_middleware(
 )
 
 
+@app.middleware("http")
+async def add_no_cache_headers(request: Request, call_next):
+    """Ensure all API responses are never cached by browsers or proxies."""
+    response = await call_next(request)
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
+
+
 @app.exception_handler(DataValidationError)
 def handle_validation_error(_request: Request, exc: DataValidationError) -> JSONResponse:
     """

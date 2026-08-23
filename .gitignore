@@ -21,6 +21,8 @@ dist-ssr/
 .DS_Store
 .vscode/
 .idea/
+.~lock.*
+~$*
 
 # Local Development & Notes
 AGENTS.md
