@@ -608,3 +608,49 @@ body {
   max-width: 500px;
   font-size: 14px;
 }
+
+/* Assistant Notice Banners */
+.assistant-notice-box {
+  border-radius: var(--radius-md);
+  padding: 8px 10px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 11px;
+}
+
+.notice-box-fallback {
+  background: var(--warning-soft);
+  border: 1px solid var(--warning-ring);
+  color: var(--warning-strong);
+}
+
+.notice-box-llm {
+  background: var(--positive-soft);
+  border: 1px solid var(--positive-ring);
+  color: var(--positive);
+}
+
+.notice-box-unsupported {
+  background: var(--surface-secondary);
+  border: 1px solid var(--border-strong);
+  color: var(--text-muted);
+}
+
+.notice-header {
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 10px;
+}
+
+.notice-sub {
+  font-size: 11px;
+  opacity: 0.9;
+  line-height: 1.35;
+}
+

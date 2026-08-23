@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { DatasetResponse, PlanResult } from '../types';
+import type { AssistantResponse, DatasetResponse, PlanResult } from '../types';
 
 /**
  * Base URL for the Atlas Fresh FastAPI backend.
@@ -14,7 +14,7 @@ const apiClient = axios.create({
     'Cache-Control': 'no-cache',
     Pragma: 'no-cache',
   },
-  timeout: 10000,
+  timeout: 12000,
 });
 
 /**
@@ -40,3 +40,17 @@ export async function fetchDataset(): Promise<DatasetResponse> {
   });
   return response.data;
 }
+
+/**
+ * Query the Grounded AI Planning Assistant with operational questions.
+ *
+ * @param {string} query - Question or preset query string.
+ * @returns {Promise<AssistantResponse>} Grounded answer, execution source, and cited IDs.
+ */
+export async function askAssistant(query: string): Promise<AssistantResponse> {
+  const response = await apiClient.post<AssistantResponse>('/api/assistant/ask', {
+    query,
+  });
+  return response.data;
+}
+

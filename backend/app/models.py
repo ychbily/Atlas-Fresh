@@ -171,3 +171,26 @@ class PlanResult(BaseModel):
     client_statuses: list[ClientStatus]
     farm_summaries: list[FarmSummary]
     local_details: list[LocalDetail]
+
+
+class AssistantSourceEnum(str, Enum):
+    """Origin source of the planning assistant response."""
+    LLM = "llm"
+    DETERMINISTIC_SUMMARY = "deterministic_summary"
+    UNSUPPORTED = "unsupported"
+
+
+class AssistantQueryRequest(BaseModel):
+    """User prompt query payload sent to the assistant endpoint."""
+    query: str = Field(description="Operational question or preset query text", min_length=1)
+
+
+class AssistantResponse(BaseModel):
+    """Structured response payload returned by the planning assistant."""
+    query: str = Field(description="Original user query")
+    answer: str = Field(description="Grounded explanation citing verifiable entity IDs")
+    source: AssistantSourceEnum = Field(description="Resolution source: llm, deterministic_summary, or unsupported")
+    status_label: str = Field(description="Honest UI status label indicating execution mode")
+    model: Optional[str] = Field(default=None, description="Model identifier if resolved via LLM")
+    cited_ids: list[str] = Field(default_factory=list, description="Verifiable entity IDs cited in the answer")
+

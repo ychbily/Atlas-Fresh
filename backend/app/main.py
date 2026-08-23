@@ -9,9 +9,10 @@ from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from app.models import DatasetResponse, PlanResult
+from app.models import AssistantQueryRequest, AssistantResponse, DatasetResponse, PlanResult
 from app.data_loader import load_dataset, DataValidationError
 from app.planning_engine import run_planning_engine
+from app.assistant import ask_assistant
 
 app = FastAPI(
     title="Atlas Fresh Daily Planning API",
@@ -52,7 +53,7 @@ def handle_validation_error(_request: Request, exc: DataValidationError) -> JSON
         JSONResponse: HTTP 422 with structured list of validation errors.
     """
     return JSONResponse(
-        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        status_code=422,
         content={
             "error": "ExcelDataValidationError",
             "message": "The dataset contains business validation errors.",
@@ -118,4 +119,26 @@ def get_plan() -> PlanResult:
     """
     dataset = load_dataset()
     return run_planning_engine(dataset)
+
+
+@app.post("/api/assistant/ask", response_model=AssistantResponse, tags=["Assistant"])
+def query_assistant(request: AssistantQueryRequest) -> AssistantResponse:
+    """
+    Query the grounded AI planning assistant with natural language questions.
+
+    Executes grounded explanation against the current daily dataset and computed plan.
+    Uses Groq (openai/gpt-oss-120b) when configured, or returns an honest, clearly
+    labelled deterministic engine summary with verifiable entity IDs.
+
+    Args:
+        request (AssistantQueryRequest): User query string.
+
+    Returns:
+        AssistantResponse: Structured explanation, resolution source, status label,
+        and list of cited verifiable entity IDs.
+    """
+    dataset = load_dataset()
+    plan = run_planning_engine(dataset)
+    return ask_assistant(request=request, plan=plan, dataset=dataset)
+
 

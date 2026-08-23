@@ -156,13 +156,24 @@ export interface PlanResult {
   local_details: LocalDetail[];
 }
 
-/**
- * Preset question shape for the AI Assistant panel.
- */
 export interface AssistantPreset {
   id: string;
   question: string;
+  answer?: string;
+}
+
+export type AssistantSource = 'llm' | 'deterministic_summary' | 'unsupported';
+
+/**
+ * Structured response from the planning assistant endpoint.
+ */
+export interface AssistantResponse {
+  query: string;
   answer: string;
+  source: AssistantSource;
+  status_label: string;
+  model?: string | null;
+  cited_ids: string[];
 }
 
 /**
@@ -174,3 +185,4 @@ export interface ValidationErrorDetail {
   field: string | null;
   message: string;
 }
+
