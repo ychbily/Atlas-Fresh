@@ -27,7 +27,7 @@ export function TraceabilityTable({ allocations, localDetails }: TraceabilityTab
         <TableShell>
           <Thead>
             <Th>Farm ID</Th>
-            <Th align="center">Physical Segment</Th>
+            <Th align="center">Segment</Th>
             <Th>Client ID</Th>
             <Th align="right">Tonnes Allocated</Th>
             <Th align="center">Quality Upgrade</Th>
