@@ -75,7 +75,7 @@ Atlas-Fresh/
 │   │   └── assistant.py         # Grounded AI assistant (Groq / gpt-oss-120b) & honest fallback
 │   ├── data/
 │   │   └── Atlas_Fresh_Production_Commercial_Data.xlsx  # Authoritative seed dataset
-│   └── tests/                   # Automated pytest suite (6 test suites / 19 subtests)
+│   └── tests/                   # Automated pytest suite (6 test suites)
 ├── frontend/
 │   ├── Dockerfile               # Frontend container definition (Node / Vite static server)
 │   ├── src/

@@ -11,9 +11,16 @@ const getApiBaseUrl = (): string => {
     return import.meta.env.VITE_API_URL;
   }
   if (typeof window !== 'undefined' && window.location && window.location.hostname) {
-    return `http://${window.location.hostname}:8000`;
+    const isLocalhost =
+      window.location.hostname === 'localhost' ||
+      window.location.hostname === '127.0.0.1';
+    if (isLocalhost) {
+      return `http://${window.location.hostname}:8000`;
+    }
+    // In production (e.g. Vercel deployment), use relative origin so requests go to https://domain.com/api/...
+    return '';
   }
-  return 'http://localhost:8000';
+  return '';
 };
 
 const apiClient = axios.create({
