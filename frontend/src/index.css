@@ -654,3 +654,62 @@ body {
   line-height: 1.35;
 }
 
+/* Mobile & Small Screen Responsiveness */
+@media (max-width: 768px) {
+  .header-container {
+    padding: 0 12px;
+    height: 52px;
+    gap: 8px;
+  }
+
+  .brand-subtitle,
+  .brand-dot,
+  .header-status-pill {
+    display: none !important;
+  }
+
+  .brand-title {
+    font-size: 15px;
+    white-space: nowrap;
+  }
+
+  .header-actions {
+    gap: 6px;
+  }
+
+  .header-actions .btn {
+    padding: 5px 8px;
+    font-size: 12px;
+  }
+
+  .workspace-main {
+    padding: 12px;
+    gap: 16px;
+  }
+
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .header-container {
+    padding: 0 10px;
+  }
+
+  .brand-title {
+    font-size: 14px;
+  }
+
+  .header-actions .btn {
+    padding: 4px 7px;
+    font-size: 11.5px;
+  }
+
+  .kpi-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+

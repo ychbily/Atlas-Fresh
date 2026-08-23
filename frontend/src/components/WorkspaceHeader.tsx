@@ -29,10 +29,12 @@ export function WorkspaceHeader({
             Atlas Fresh <span className="brand-dot">•</span>
             <span className="brand-subtitle">Daily Planning Workspace</span>
           </h1>
-          <Pill tone={validated ? 'positive' : 'warning'}>
-            {validated ? '✓ ' : '! '}
-            {statusLabel}
-          </Pill>
+          <span className="header-status-pill">
+            <Pill tone={validated ? 'positive' : 'warning'}>
+              {validated ? '✓ ' : '! '}
+              {statusLabel}
+            </Pill>
+          </span>
         </div>
 
         <div className="header-actions">
@@ -57,3 +59,4 @@ export function WorkspaceHeader({
     </header>
   );
 }
+
